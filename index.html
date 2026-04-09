@@ -3,1075 +3,562 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Appuesta &mdash; DR Market Valuation & Fundraise Strategy</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>Appuesta — Multi-Account Risk Report</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --red: #e4002b;
-  --red-dark: #b8001f;
-  --red-light: rgba(228,0,43,0.08);
-  --gray: #53565a;
-  --gray-light: #8a8d91;
-  --bg: #0d0f12;
-  --bg-card: #161a20;
-  --bg-surface: #1e2329;
-  --text: #f0f1f3;
-  --text-muted: #8a8d91;
-  --green: #00c853;
-  --yellow: #ffc107;
-  --blue: #2979ff;
+  --bg: #0c0e12;
+  --surface: #141821;
+  --surface-2: #1a1f2b;
+  --border: #252b3a;
+  --text: #e2e6f0;
+  --text-muted: #7a8299;
+  --red: #f04444;
+  --red-dim: rgba(240,68,68,0.12);
+  --orange: #f59e0b;
+  --orange-dim: rgba(245,158,11,0.12);
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.12);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,0.12);
+  --purple: #a855f7;
+  --purple-dim: rgba(168,85,247,0.12);
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
-  font-family: &#39;DM Sans&#39;, sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-}
-
-.container {
-  max-width: 960px;
+  font-family: var(--sans);
+  line-height: 1.6;
+  padding: 2rem;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 40px 32px;
 }
+h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem; }
+h2 { font-size: 1.2rem; font-weight: 700; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.75rem; }
+p, li { font-size: 0.92rem; color: var(--text); }
+.subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; }
 
-/* Header */
-.header {
-  text-align: center;
-  padding: 60px 0 40px;
-  border-bottom: 1px solid rgba(228,0,43,0.2);
-  margin-bottom: 48px;
+.verdict-box {
+  background: var(--red-dim);
+  border: 1px solid var(--red);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0 2rem;
 }
-.header .logo {
-  font-family: &#39;Space Mono&#39;, monospace;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--red);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.header .subtitle {
-  font-size: 14px;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 32px;
-}
-.header h1 {
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 12px;
-}
-.header .date {
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-/* Sections */
-.section {
-  margin-bottom: 48px;
-}
-.section-label {
-  font-family: &#39;Space Mono&#39;, monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
+.verdict-box .label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--red);
-  margin-bottom: 12px;
+  margin-bottom: 0.4rem;
 }
-.section h2 {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  line-height: 1.3;
-}
-.section p {
-  color: var(--text);
-  margin-bottom: 16px;
-  font-size: 15px;
+.verdict-box .text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
-/* Cards */
 .card {
-  background: var(--bg-card);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
-  padding: 28px;
-  margin-bottom: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
 }
-.card-header {
-  font-family: &#39;Space Mono&#39;, monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-.card-value {
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.1;
-}
-.card-value.red { color: var(--red); }
-.card-value.green { color: var(--green); }
-.card-sub {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: 6px;
-}
-
-/* Metric Grid */
-.metric-grid {
+.card-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
 }
-@media (max-width: 768px) { .metric-grid { grid-template-columns: 1fr 1fr; } }
 
-/* Tables */
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+.stat-row:last-child { border-bottom: none; }
+.stat-row .label { color: var(--text-muted); }
+.stat-row .value { font-family: var(--mono); font-weight: 600; }
+
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.badge-red { background: var(--red-dim); color: var(--red); }
+.badge-orange { background: var(--orange-dim); color: var(--orange); }
+.badge-green { background: var(--green-dim); color: var(--green); }
+.badge-blue { background: var(--blue-dim); color: var(--blue); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); }
+
+.player-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.player-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 14px;
+  font-size: 0.82rem;
+  margin: 0.75rem 0;
 }
-thead th {
-  font-family: &#39;Space Mono&#39;, monospace;
-  font-size: 11px;
-  letter-spacing: 1px;
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
-  text-align: left;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
 }
 td {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
 }
-tr:hover { background: rgba(255,255,255,0.02); }
-.val-highlight { color: var(--red); font-weight: 600; }
-.val-green { color: var(--green); font-weight: 600; }
+tr:last-child td { border-bottom: none; }
+.mono { font-family: var(--mono); font-size: 0.82rem; }
 
-/* Highlight Box */
-.highlight-box {
-  background: linear-gradient(135deg, rgba(228,0,43,0.12) 0%, rgba(228,0,43,0.04) 100%);
-  border: 1px solid rgba(228,0,43,0.25);
-  border-radius: 12px;
-  padding: 28px;
-  margin: 24px 0;
-}
-.highlight-box h3 {
-  color: var(--red);
-  font-size: 18px;
-  margin-bottom: 12px;
-}
-
-/* Callout */
-.callout {
-  background: var(--bg-surface);
+.evidence-item {
+  background: var(--surface-2);
   border-left: 3px solid var(--red);
-  padding: 20px 24px;
-  margin: 20px 0;
-  border-radius: 0 8px 8px 0;
-  font-size: 14px;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.85rem;
 }
-.callout strong { color: var(--red); }
-
-/* Two Column */
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin: 20px 0;
+.evidence-item.warning {
+  border-left-color: var(--orange);
 }
-@media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
-
-/* Scenario tabs */
-.scenario-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-.scenario-tab {
-  padding: 10px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: transparent;
+.evidence-item .ev-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
   color: var(--text-muted);
-  transition: all 0.2s;
-}
-.scenario-tab.active {
-  background: var(--red);
-  color: white;
-  border-color: var(--red);
-}
-.scenario-tab:hover:not(.active) {
-  border-color: rgba(255,255,255,0.3);
-  color: var(--text);
+  margin-bottom: 0.3rem;
 }
 
-/* Valuation Dial */
-.val-range {
+.risk-meter {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 24px 0;
+  gap: 3px;
+  margin: 0.5rem 0;
 }
-.val-bar {
+.risk-meter .bar {
+  height: 6px;
+  border-radius: 3px;
   flex: 1;
-  height: 12px;
-  background: linear-gradient(90deg, var(--blue) 0%, var(--green) 40%, var(--yellow) 70%, var(--red) 100%);
-  border-radius: 6px;
-  position: relative;
+  background: var(--border);
 }
-.val-marker {
-  position: absolute;
-  width: 4px;
-  height: 24px;
-  background: white;
-  border-radius: 2px;
-  top: -6px;
-  transition: left 0.5s ease;
-}
-.val-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
+.risk-meter .bar.filled { background: var(--red); }
+
+.section-intro {
   color: var(--text-muted);
-  margin-top: 4px;
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
 }
 
-/* Waterfall */
-.waterfall-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+ul { list-style: none; padding: 0; }
+ul li {
+  padding: 0.3rem 0 0.3rem 1.2rem;
+  position: relative;
+  font-size: 0.88rem;
 }
-.waterfall-label { font-size: 14px; }
-.waterfall-value {
-  font-family: &#39;Space Mono&#39;, monospace;
-  font-size: 14px;
+ul li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--red);
   font-weight: 700;
 }
 
-/* Footer */
 .footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.78rem;
   text-align: center;
-  padding: 40px 0;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  color: var(--text-muted);
-  font-size: 12px;
-}
-
-.divider {
-  border: none;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  margin: 48px 0;
-}
-
-.tag {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-.tag-red { background: rgba(228,0,43,0.15); color: var(--red); }
-.tag-green { background: rgba(0,200,83,0.15); color: var(--green); }
-.tag-blue { background: rgba(41,121,255,0.15); color: var(--blue); }
-.tag-yellow { background: rgba(255,193,7,0.15); color: var(--yellow); }
-
-ul { padding-left: 20px; margin: 12px 0; }
-li { margin-bottom: 8px; font-size: 14px; color: var(--text); }
-
-.rec-box {
-  background: linear-gradient(135deg, rgba(0,200,83,0.1) 0%, rgba(0,200,83,0.03) 100%);
-  border: 1px solid rgba(0,200,83,0.25);
-  border-radius: 12px;
-  padding: 28px;
-  margin: 24px 0;
-}
-.rec-box h3 { color: var(--green); font-size: 18px; margin-bottom: 12px; }
-
-.note {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-top: 8px;
 }
 </style>
 </head>
 <body>
-<div class="container">
 
-<!-- HEADER -->
-<div class="header">
-  <div class="logo">APPUESTA</div>
-  <div class="subtitle">Dominican Republic Market Entry</div>
-  <h1>Valuation Analysis & Fundraise Strategy</h1>
-  <div class="date">Prepared March 2026 &mdash; Confidential</div>
+<h1>Multi-Account Risk Report</h1>
+<p class="subtitle">Appuesta Risk Management &mdash; Generated April 9, 2026</p>
+
+<!-- VERDICT -->
+<div class="verdict-box">
+  <div class="label">&#9888; Overall Assessment</div>
+  <div class="text">HIGH CONFIDENCE: These three accounts are operated by the same individual or a coordinated ring. The combination of shared IPs, identical stake amounts, same-side same-event betting within minutes, and mirrored combo bets across all three accounts leaves virtually no room for coincidence.</div>
 </div>
 
-<!-- EXECUTIVE SUMMARY -->
-<div class="section">
-  <div class="section-label">Executive Summary</div>
-  <h2>The Opportunity in One Page</h2>
-  
-  <p>Appuesta is a fully built, live online sportsbook developed by Flexsy (development team) and powered by Betby (sportsbook provider), currently operating in Chile and Ecuador under an Anjouan license, with a DR sports betting license in final-stage approval &mdash; expected within 2 months. The Dominican Republic is a newly regulated online gambling market with only 4 active licensees, an estimated addressable market of 928,000 online bettors, and average revenue per user of $370/year. The DR launch will focus exclusively on sportsbook; online casino licensing will be pursued as a second phase once the sports operation is established.</p>
-  
-  <p>The founding team of three co-equal directors brings deep local connections &mdash; including a partnership agreement with Leones del Escogido (one of DR baseball&#39;s premier franchises, activating October 2026 for winter league), secured billboard advertising across Santo Domingo, and established local banking infrastructure for deposits and credit card processing. $438K has already been deployed into the platform, technology, marketing, and operations.</p>
-
-  <div class="metric-grid">
-    <div class="card">
-      <div class="card-header">DR TAM</div>
-      <div class="card-value red">$343M</div>
-      <div class="card-sub">928K bettors x $370 ARPU</div>
-    </div>
-    <div class="card">
-      <div class="card-header">Active Licensees</div>
-      <div class="card-value">4</div>
-      <div class="card-sub">Extreme scarcity &mdash; 2yr avg. process</div>
-    </div>
-    <div class="card">
-      <div class="card-header">License Status</div>
-      <div class="card-value green">~60 Days</div>
-      <div class="card-sub">Final corrections submitted</div>
-    </div>
-    <div class="card">
-      <div class="card-header">Capital Deployed</div>
-      <div class="card-value">$438K</div>
-      <div class="card-sub">Platform, tech, marketing, ops</div>
-    </div>
-    <div class="card">
-      <div class="card-header">Platform Turnover (Last 3 Mo.)</div>
-      <div class="card-value">$427K</div>
-      <div class="card-sub">Since Dec 1, 2025 (3 months)</div>
-    </div>
-    <div class="card">
-      <div class="card-header">Cash Turnover</div>
-      <div class="card-value">$385K</div>
-      <div class="card-sub">90% real-money action</div>
-    </div>
+<!-- RISK METER -->
+<div style="margin-bottom: 2rem;">
+  <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-family:var(--mono); color:var(--text-muted); margin-bottom:0.3rem;">
+    <span>LOW</span><span>MODERATE</span><span>HIGH</span><span>CRITICAL</span>
   </div>
+  <div class="risk-meter">
+    <div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div>
+    <div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div>
+    <div class="bar"></div>
+  </div>
+  <div style="text-align:right; font-family:var(--mono); font-size:0.8rem; color:var(--red); font-weight:700; margin-top:0.3rem;">Risk Score: 9 / 10</div>
 </div>
 
-<hr class="divider">
+<!-- PLAYER PROFILES -->
+<h2>1. Player Profiles</h2>
 
-<!-- MARKET ANALYSIS -->
-<div class="section">
-  <div class="section-label">Market Analysis</div>
-  <h2>Dominican Republic iGaming &mdash; Ground Floor of a Regulated Market</h2>
-  
-  <p>The DR formally regulated online gambling in 2024 under Resolution 136-2024. Sports betting licenses cost $260K, online casino licenses $346K, and they&#39;re valid for 5 years. The licensing process averages ~2 years, creating a significant barrier to entry and first-mover advantage for holders. Appuesta is pursuing the sports betting license first, with online casino as a future expansion phase.</p>
-  
-  <div class="callout">
-    <strong>Key Insight:</strong> With only 4 active licensees and a 2-year application process, Appuesta&#39;s near-final license status is itself a scarce, defensible asset. A new competitor entering today would not be operational until 2028.
-  </div>
-
-  <h3 style="margin-top:24px; margin-bottom:16px;">TAM Calculation</h3>
-  <div class="waterfall-item">
-    <span class="waterfall-label">DR estimated online users (smartphones + internet)</span>
-    <span class="waterfall-value">5,800,000</span>
-  </div>
-  <div class="waterfall-item">
-    <span class="waterfall-label">Estimated gambling penetration rate</span>
-    <span class="waterfall-value">16%</span>
-  </div>
-  <div class="waterfall-item">
-    <span class="waterfall-label">= Addressable online bettors</span>
-    <span class="waterfall-value val-highlight">928,000</span>
-  </div>
-  <div class="waterfall-item">
-    <span class="waterfall-label">Estimated ARPU</span>
-    <span class="waterfall-value">$370 / year</span>
-  </div>
-  <div class="waterfall-item" style="border-bottom: 2px solid var(--red);">
-    <span class="waterfall-label"><strong>= Total Addressable Market (TAM)</strong></span>
-    <span class="waterfall-value val-highlight" style="font-size:18px;">$343,360,000</span>
-  </div>
-  
-  <p style="margin-top:16px;">With 4 licensed operators (soon to be 5 with Appuesta), even conservative market share assumptions yield significant revenue potential. Capturing just 3-5% of the TAM in year 1-2 would represent $10M-$17M in annual revenue.</p>
-
-  <h3 style="margin-top:24px; margin-bottom:16px;">LATAM iGaming Macro Tailwinds</h3>
-  <ul>
-    <li>The LATAM iGaming market reached $6B in 2025, with a projected CAGR of 18.4% through 2028 toward ~$10B</li>
-    <li>The DR&#39;s regulatory overhaul (Resolution 136-2024 + proposed DGJA regulator in June 2025) signals government commitment to a transparent, growing market</li>
-    <li>Google&#39;s $500M IXP investment in DR improves local infrastructure, reducing latency and hosting costs for digital platforms</li>
-    <li>66% of DR e-commerce payments are via credit card &mdash; Appuesta&#39;s secured local bank accounts and CARDNET integration position it perfectly</li>
-    <li>DR smartphone penetration approaching 90% by 2029 projections</li>
-  </ul>
-</div>
-
-<hr class="divider">
-
-<!-- COMPETITIVE MOAT -->
-<div class="section">
-  <div class="section-label">Competitive Position</div>
-  <h2>What Makes Appuesta Defensible</h2>
-  
-  <div class="two-col">
-    <div class="card">
-      <div class="card-header">Regulatory Moat</div>
-      <p style="font-size:14px;">DR sports betting license in final approval &mdash; only 5th operator in market. 2-year licensing process creates massive barrier. License valid 5 years, non-transferable first 3. Casino license to follow as expansion phase.</p>
-      <div style="margin-top:12px;"><span class="tag tag-red">HIGH VALUE</span></div>
+<div class="card-grid">
+  <div class="card">
+    <div class="player-header">
+      <div class="player-dot" style="background:var(--blue)"></div>
+      <div>
+        <strong style="font-size:1rem;">JuanP5234_</strong>
+        <span class="badge badge-blue" style="margin-left:0.5rem;">Primary Account</span>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-header">Local Infrastructure</div>
-      <p style="font-size:14px;">Local DR bank accounts (rare for iGaming), bank transfers + credit card acceptance via CARDNET. D24 + Monnet payment rails operational.</p>
-      <div style="margin-top:12px;"><span class="tag tag-green">OPERATIONAL</span></div>
-    </div>
-    <div class="card">
-      <div class="card-header">Marketing Partnerships</div>
-      <p style="font-size:14px;">Leones del Escogido stadium partnership (banners, digital billboard, path to jersey sponsorship) &mdash; activating October 2026 for DR winter baseball league. 20 billboards in Santo Domingo gifted 3-6 months (~$51K-$102K value).</p>
-      <div style="margin-top:12px;"><span class="tag tag-blue">SECURED</span></div>
-    </div>
-    <div class="card">
-      <div class="card-header">Founder Network</div>
-      <p style="font-size:14px;">Three co-founders with deep DR business + sports connections &mdash; direct access to athletes, business elite, and media that money alone can&#39;t buy.</p>
-      <div style="margin-top:12px;"><span class="tag tag-yellow">UNFAIR ADVANTAGE</span></div>
-    </div>
+    <div class="stat-row"><span class="label">Ext Player ID</span><span class="value">223100004455</span></div>
+    <div class="stat-row"><span class="label">First Bet</span><span class="value">Dec 22, 2025</span></div>
+    <div class="stat-row"><span class="label">Total Bets</span><span class="value">326</span></div>
+    <div class="stat-row"><span class="label">Total Staked</span><span class="value">$3,964.57</span></div>
+    <div class="stat-row"><span class="label">Total Won</span><span class="value">$4,105.43</span></div>
+    <div class="stat-row"><span class="label">P&amp;L</span><span class="value" style="color:var(--green);">+$140.86</span></div>
+    <div class="stat-row"><span class="label">Avg Stake</span><span class="value">$12.16</span></div>
+    <div class="stat-row"><span class="label">Primary IP</span><span class="value" style="color:var(--red);">186.71.105.21</span></div>
+    <div class="stat-row"><span class="label">Secondary IP</span><span class="value" style="color:var(--orange);">190.155.238.76</span></div>
+    <div class="stat-row"><span class="label">Country</span><span class="value">EC</span></div>
   </div>
 
   <div class="card">
-    <div class="card-header">Product Readiness</div>
-    <p style="font-size:14px;">The platform is fully built and live &mdash; not a concept, not a prototype. Developed by Flexsy and powered by Betby (sportsbook provider), the product has processed $427K in turnover in the last 3 months across Chile and Ecuador markets. Player intelligence and churn prevention analytics tools built in-house. Bonus structures (welcome, reload) benchmarked against LATAM competitors and optimized. This is a go-to-market story, not a build story.</p>
+    <div class="player-header">
+      <div class="player-dot" style="background:var(--orange)"></div>
+      <div>
+        <strong style="font-size:1rem;">Nataly920410</strong>
+        <span class="badge badge-orange" style="margin-left:0.5rem;">Linked Account</span>
+      </div>
+    </div>
+    <div class="stat-row"><span class="label">Ext Player ID</span><span class="value">223100009590</span></div>
+    <div class="stat-row"><span class="label">First Bet</span><span class="value">Jan 28, 2026</span></div>
+    <div class="stat-row"><span class="label">Total Bets</span><span class="value">83</span></div>
+    <div class="stat-row"><span class="label">Total Staked</span><span class="value">$2,231.36</span></div>
+    <div class="stat-row"><span class="label">Total Won</span><span class="value">$1,353.18</span></div>
+    <div class="stat-row"><span class="label">P&amp;L</span><span class="value" style="color:var(--red);">-$878.18</span></div>
+    <div class="stat-row"><span class="label">Avg Stake</span><span class="value">$26.88</span></div>
+    <div class="stat-row"><span class="label">IPs</span><span class="value">186.65.x.x range</span></div>
+    <div class="stat-row"><span class="label">Country</span><span class="value">EC</span></div>
+  </div>
+
+  <div class="card">
+    <div class="player-header">
+      <div class="player-dot" style="background:var(--purple)"></div>
+      <div>
+        <strong style="font-size:1rem;">Giovanni1314</strong>
+        <span class="badge badge-purple" style="margin-left:0.5rem;">Linked Account</span>
+      </div>
+    </div>
+    <div class="stat-row"><span class="label">Ext Player ID</span><span class="value">223100009527</span></div>
+    <div class="stat-row"><span class="label">First Bet</span><span class="value">Jan 25, 2026</span></div>
+    <div class="stat-row"><span class="label">Total Bets</span><span class="value">27</span></div>
+    <div class="stat-row"><span class="label">Total Staked</span><span class="value">$904.67</span></div>
+    <div class="stat-row"><span class="label">Total Won</span><span class="value">$210.00</span></div>
+    <div class="stat-row"><span class="label">P&amp;L</span><span class="value" style="color:var(--red);">-$694.67</span></div>
+    <div class="stat-row"><span class="label">Avg Stake</span><span class="value">$33.51</span></div>
+    <div class="stat-row"><span class="label">Primary IP</span><span class="value" style="color:var(--red);">186.71.105.21</span></div>
+    <div class="stat-row"><span class="label">Secondary IP</span><span class="value" style="color:var(--orange);">190.155.238.76</span></div>
+    <div class="stat-row"><span class="label">Country</span><span class="value">EC</span></div>
   </div>
 </div>
 
-<hr class="divider">
+<div class="card" style="margin-top:1rem; background:var(--surface-2);">
+  <div style="font-family:var(--mono); font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">COMBINED EXPOSURE</div>
+  <div class="stat-row"><span class="label">Total Bets (all accounts)</span><span class="value">436</span></div>
+  <div class="stat-row"><span class="label">Total Staked (all accounts)</span><span class="value">$7,100.60</span></div>
+  <div class="stat-row"><span class="label">Total Won (all accounts)</span><span class="value">$5,668.61</span></div>
+  <div class="stat-row"><span class="label">Net P&amp;L (combined)</span><span class="value" style="color:var(--red);">-$1,431.99</span></div>
+</div>
 
-<!-- TRACTION -->
-<div class="section">
-  <div class="section-label">Traction & Proof Points</div>
-  <h2>What&#39;s Already Been Proven (Chile + Ecuador)</h2>
-  
-  <p>The LATAM operations in Chile and Ecuador were never the primary focus &mdash; they served as the proving ground to build and validate the product, optimize bonus structures, develop analytics tools, and refine operations before the DR launch. Even with minimal marketing investment:</p>
+<!-- IP EVIDENCE -->
+<h2>2. IP Address Linkage</h2>
+<p class="section-intro">Two IP addresses are shared directly between JuanP5234_ and Giovanni1314. All three accounts share blank-IP sessions.</p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Metric</th>
-        <th>Value</th>
-        <th>Context</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Total platform turnover (last 3 months)</td>
-        <td class="val-highlight">$427,000</td>
-        <td>Minimal marketing spend</td>
-      </tr>
-      <tr>
-        <td>Cash turnover (real money, excl. bonuses)</td>
-        <td class="val-highlight">$385,000</td>
-        <td>90% real-money ratio</td>
-      </tr>
-      <tr>
-        <td>Total registered users</td>
-        <td>9,200+</td>
-        <td>Since July 2025</td>
-      </tr>
-      <tr>
-        <td>Depositing users</td>
-        <td>500+</td>
-        <td>~5.4% deposit conversion</td>
-      </tr>
-      <tr>
-        <td>Sportsbook active players</td>
-        <td>102</td>
-        <td>Via Betby export (recent snapshot)</td>
-      </tr>
-      <tr>
-        <td>Monthly retention (recent)</td>
-        <td>50-64%</td>
-        <td>Stable in recent months</td>
-      </tr>
-      <tr>
-        <td>Platform launch</td>
-        <td>July 2025</td>
-        <td>Migrated to new platform Dec 2025</td>
-      </tr>
-      <tr>
-        <td>Total capital deployed</td>
-        <td>$438,000</td>
-        <td>Tech, marketing, legal, operations</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <div class="callout">
-    <strong>Why this matters:</strong> Appuesta isn&#39;t asking investors to fund an idea. It&#39;s asking investors to fund the market launch of a product that&#39;s already built, tested, and generating real turnover &mdash; into a market where it will be one of only 5 licensed operators.
+<table>
+  <thead>
+    <tr><th>IP Address</th><th>JuanP5234_</th><th>Nataly920410</th><th>Giovanni1314</th><th>Flag</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="mono" style="color:var(--red);">186.71.105.21</td>
+      <td class="mono">301 bets</td>
+      <td class="mono">—</td>
+      <td class="mono">1 bet</td>
+      <td><span class="badge badge-red">SHARED</span></td>
+    </tr>
+    <tr>
+      <td class="mono" style="color:var(--orange);">190.155.238.76</td>
+      <td class="mono">19 bets</td>
+      <td class="mono">—</td>
+      <td class="mono">7 bets</td>
+      <td><span class="badge badge-red">SHARED</span></td>
+    </tr>
+    <tr>
+      <td class="mono" style="color:var(--text-muted);">(blank)</td>
+      <td class="mono">6 bets</td>
+      <td class="mono">3 bets</td>
+      <td class="mono">2 bets</td>
+      <td><span class="badge badge-orange">ALL THREE</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="evidence-item">
+  <div class="ev-label">KEY FINDING</div>
+  JuanP5234_ and Giovanni1314 share the <strong>exact same primary IP</strong> (186.71.105.21) and <strong>exact same secondary IP</strong> (190.155.238.76). This is the strongest single indicator — these two accounts operate from the same physical location/network. Nataly920410 uses a different IP range (186.65.x.x) but all other behavioral patterns confirm coordination.
+</div>
+
+<!-- BETTING OVERLAP -->
+<h2>3. Same-Event Betting Analysis</h2>
+<p class="section-intro">Cross-referencing all bets across the three accounts for overlapping events, same-side vs. opposite-side patterns.</p>
+
+<div class="card-grid">
+  <div class="card">
+    <h3 style="margin-top:0;">JuanP5234_ vs Nataly920410</h3>
+    <div class="stat-row"><span class="label">Common Events</span><span class="value">75</span></div>
+    <div class="stat-row"><span class="label">Same Side, Same Market</span><span class="value" style="color:var(--red);">61</span></div>
+    <div class="stat-row"><span class="label">Opposite Sides</span><span class="value">6</span></div>
+    <div class="stat-row"><span class="label">Different Market</span><span class="value">22</span></div>
+    <div class="stat-row"><span class="label">Same-Side Rate</span><span class="value" style="color:var(--red);">91%</span></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0;">JuanP5234_ vs Giovanni1314</h3>
+    <div class="stat-row"><span class="label">Common Events</span><span class="value">26</span></div>
+    <div class="stat-row"><span class="label">Same Side, Same Market</span><span class="value" style="color:var(--red);">21</span></div>
+    <div class="stat-row"><span class="label">Opposite Sides</span><span class="value">2</span></div>
+    <div class="stat-row"><span class="label">Different Market</span><span class="value">8</span></div>
+    <div class="stat-row"><span class="label">Same-Side Rate</span><span class="value" style="color:var(--red);">91%</span></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0;">Nataly920410 vs Giovanni1314</h3>
+    <div class="stat-row"><span class="label">Common Events</span><span class="value">30</span></div>
+    <div class="stat-row"><span class="label">Same Side, Same Market</span><span class="value" style="color:var(--red);">23</span></div>
+    <div class="stat-row"><span class="label">Opposite Sides</span><span class="value">2</span></div>
+    <div class="stat-row"><span class="label">Different Market</span><span class="value">17</span></div>
+    <div class="stat-row"><span class="label">Same-Side Rate</span><span class="value" style="color:var(--red);">92%</span></div>
   </div>
 </div>
 
-<hr class="divider">
-
-<!-- VALUATION FRAMEWORK -->
-<div class="section">
-  <div class="section-label">Valuation Framework</div>
-  <h2>Building the Pre-Money Valuation</h2>
-  
-  <p>For early-stage iGaming operators, traditional revenue multiples are less relevant since the company is pre-scale in its target market. Instead, the valuation is built on a combination of asset value, strategic positioning, comparable transactions, and forward-looking potential.</p>
-
-  <h3 style="margin-top:24px; margin-bottom:16px;">Method 1: Asset / Replacement Cost Floor</h3>
-  <p>What it would cost someone to replicate what Appuesta has today &mdash; from scratch:</p>
-  
-  <table>
-    <thead>
-      <tr><th>Asset</th><th>Value</th><th>Notes</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Capital deployed to date</td>
-        <td class="val-highlight">$438,000</td>
-        <td>Platform, Flexsy development, Betby integration, marketing, legal, ops</td>
-      </tr>
-      <tr>
-        <td>DR license (application + fees)</td>
-        <td class="val-highlight">$260,000</td>
-        <td>Sports betting license fee; near-final approval</td>
-      </tr>
-      <tr>
-        <td>Time value of license process</td>
-        <td class="val-highlight">$200,000+</td>
-        <td>2 years of opportunity cost; not replicable quickly</td>
-      </tr>
-      <tr>
-        <td>Anjouan license (LATAM operations)</td>
-        <td class="val-highlight">$30,000</td>
-        <td>Current operating license</td>
-      </tr>
-      <tr>
-        <td>Corporate structure (JJM + DRBETS SRL)</td>
-        <td class="val-highlight">$25,000</td>
-        <td>Legal entities, bank accounts, compliance</td>
-      </tr>
-      <tr>
-        <td>In-kind marketing assets</td>
-        <td class="val-highlight">$75,000</td>
-        <td>Billboard deal ($51-102K) + Escogido stadium access</td>
-      </tr>
-      <tr>
-        <td>Proprietary analytics tools</td>
-        <td class="val-highlight">$50,000</td>
-        <td>Player intelligence, financial forecast, CFO dashboard</td>
-      </tr>
-      <tr>
-        <td>Local banking + payment infrastructure</td>
-        <td class="val-highlight">$30,000</td>
-        <td>DR bank accounts, CARDNET, D24, Monnet</td>
-      </tr>
-      <tr style="background:rgba(228,0,43,0.06);">
-        <td><strong>Total Replacement Cost</strong></td>
-        <td class="val-highlight" style="font-size:18px;"><strong>~$1.1M</strong></td>
-        <td><strong>Minimum floor</strong></td>
-      </tr>
-    </tbody>
-  </table>
-  <p class="note">This is a floor, not a valuation. It doesn&#39;t account for founder expertise, network value, or market opportunity.</p>
-
-  <h3 style="margin-top:32px; margin-bottom:16px;">Method 2: Comparable Market Positioning</h3>
-  <p>iGaming license values in newly regulated markets command significant premiums:</p>
-  
-  <table>
-    <thead>
-      <tr><th>Comparable</th><th>Detail</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>DR sports betting license fee</td>
-        <td>$260,000 (this is just the government fee, not the total cost to obtain)</td>
-      </tr>
-      <tr>
-        <td>DR online casino license fee</td>
-        <td>$346,000</td>
-      </tr>
-      <tr>
-        <td>Brazilian iGaming licenses (2025)</td>
-        <td>~$5.8M per license &mdash; operators paid massive premiums for regulated market access</td>
-      </tr>
-      <tr>
-        <td>Ontario (Canada) regulated market</td>
-        <td>Generated $1.2B GGR in FY2024-25 from a competitive licensing framework</td>
-      </tr>
-      <tr>
-        <td>Median US pre-seed valuation (2025)</td>
-        <td>$7.7M pre-money (general startups, not iGaming-specific)</td>
-      </tr>
-      <tr>
-        <td>Median US seed valuation (2025)</td>
-        <td>$12-16M pre-money, $3.1M median round</td>
-      </tr>
-      <tr>
-        <td>iGaming seed/early-stage (LATAM)</td>
-        <td>$2M-$5M pre-money for pre-revenue; $5M-$15M with license + traction</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3 style="margin-top:32px; margin-bottom:16px;">Method 3: Forward-Looking Revenue Potential</h3>
-  <p>Projecting Appuesta&#39;s DR operations over the first 24 months post-license:</p>
-
-  <div class="scenario-tabs" id="scenarioTabs">
-    <div class="scenario-tab active" onclick="switchScenario(&#39;conservative&#39;)">Conservative</div>
-    <div class="scenario-tab" onclick="switchScenario(&#39;base&#39;)">Base Case</div>
-    <div class="scenario-tab" onclick="switchScenario(&#39;aggressive&#39;)">Aggressive</div>
-  </div>
-
-  <div id="scenarioContent">
-    <!-- Filled by JS -->
-  </div>
+<div class="evidence-item">
+  <div class="ev-label">CRITICAL PATTERN</div>
+  When any two of these accounts bet on the same event and same market, they take the <strong>same side 91–92% of the time</strong>. Independent bettors betting on identical events would statistically agree roughly 50% of the time. A 91% same-side rate across 75+ common events is statistically near-impossible without coordination.
 </div>
 
-<hr class="divider">
-
-<!-- RECOMMENDATION -->
-<div class="section">
-  <div class="section-label">Recommendation</div>
-  <h2>Valuation Range & Fundraise Strategy</h2>
-
-  <div class="val-range">
-    <span style="font-size:13px; color:var(--text-muted);">$2M</span>
-    <div class="val-bar">
-      <div class="val-marker" id="valMarker" style="left: 40%;"></div>
-    </div>
-    <span style="font-size:13px; color:var(--text-muted);">$8M</span>
-  </div>
-  <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-top:-8px; margin-bottom:24px; padding: 0 40px;">
-    <span>Floor</span>
-    <span>Conservative</span>
-    <span>Sweet Spot</span>
-    <span>Aggressive</span>
-  </div>
-
-  <div class="highlight-box">
-    <h3>Recommended Pre-Money Valuation: $3.5M &ndash; $5M</h3>
-    <p style="font-size:15px; margin-bottom:16px;">This range is defensible and credible because it sits above the $1.1M replacement cost floor with a reasonable premium for the license moat, market positioning, founder network, and in-kind assets &mdash; but doesn&#39;t rely on speculative revenue multiples that an investor could challenge.</p>
-    <p style="font-size:14px;">At $4M pre-money (the midpoint), you&#39;re asking an investor to believe that Appuesta &mdash; with a near-final license in a 5-operator market of $343M TAM, a live product, established payment infrastructure, stadium partnership, and billboard advertising &mdash; is worth roughly <strong>1.2% of the addressable market opportunity</strong>. That&#39;s modest.</p>
-  </div>
-
-  <h3 style="margin-top:32px; margin-bottom:16px;">Why This Range Works</h3>
-  <div class="two-col">
-    <div>
-      <p style="font-size:14px;"><strong>Why not lower ($2-3M):</strong></p>
-      <ul>
-        <li>Replacement cost alone is $1.1M &mdash; doesn&#39;t account for 2 years of licensing work</li>
-        <li>The license scarcity (only 4 other operators) has real market value</li>
-        <li>Founder network and Escogido partnership are not replicable assets</li>
-        <li>You&#39;d be giving away too much equity for too little</li>
-      </ul>
-    </div>
-    <div>
-      <p style="font-size:14px;"><strong>Why not higher ($6-8M):</strong></p>
-      <ul>
-        <li>DR revenue is still $0 &mdash; license isn&#39;t in hand yet</li>
-        <li>LATAM operations are small scale and not the focus</li>
-        <li>Current cash position ($19K + $10K pledged) signals urgency</li>
-        <li>Higher valuation = harder to raise quickly when you need speed</li>
-      </ul>
-    </div>
-  </div>
-
-  <h3 style="margin-top:32px; margin-bottom:16px;">Recommended Raise Amount</h3>
-  
-  <div class="rec-box">
-    <h3>Raise $500K &ndash; $750K on a $4M Pre-Money Valuation</h3>
-    <p style="font-size:14px; margin-bottom:16px;">This gives you a <strong>$4.5M &ndash; $4.75M post-money valuation</strong>, diluting 11-16% across the three founders &mdash; manageable and standard for a seed/pre-seed round.</p>
-    <table>
-      <thead><tr><th>Scenario</th><th>Raise</th><th>Pre-Money</th><th>Post-Money</th><th>Dilution</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>Minimum viable</td>
-          <td>$500K</td>
-          <td>$4.0M</td>
-          <td>$4.5M</td>
-          <td class="val-green">11.1%</td>
-        </tr>
-        <tr style="background:rgba(0,200,83,0.04);">
-          <td><strong>Recommended</strong></td>
-          <td><strong>$650K</strong></td>
-          <td><strong>$4.0M</strong></td>
-          <td><strong>$4.65M</strong></td>
-          <td class="val-green"><strong>14.0%</strong></td>
-        </tr>
-        <tr>
-          <td>Stretch target</td>
-          <td>$750K</td>
-          <td>$4.0M</td>
-          <td>$4.75M</td>
-          <td class="val-green">15.8%</td>
-        </tr>
-        <tr>
-          <td>Alternate: higher val.</td>
-          <td>$750K</td>
-          <td>$5.0M</td>
-          <td>$5.75M</td>
-          <td class="val-green">13.0%</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3 style="margin-top:32px; margin-bottom:16px;">Use of Funds ($650K Recommended Raise)</h3>
-  <p style="font-size:14px; margin-bottom:16px; color:var(--text-muted);"><em>Note: The DR license fee ($260K) is already fully funded from existing capital and is NOT included in this raise. Every dollar raised goes directly to market launch and growth.</em></p>
-  <table>
-    <thead><tr><th>Category</th><th>Amount</th><th>%</th><th>Details</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>Marketing Launch (DR)</td>
-        <td>$250,000</td>
-        <td>38%</td>
-        <td>Digital acquisition, social media, Escogido activation (Oct), billboard creative, influencer partnerships, TV/radio spots</td>
-      </tr>
-      <tr>
-        <td>Personnel & Operations</td>
-        <td>$150,000</td>
-        <td>23%</td>
-        <td>Customer support team, DR operations manager, compliance officer, marketing coordinator</td>
-      </tr>
-      <tr>
-        <td>Working Capital & Player Liquidity</td>
-        <td>$100,000</td>
-        <td>15%</td>
-        <td>Player account funding, payout reserves, bonus budget for first 6 months</td>
-      </tr>
-      <tr>
-        <td>Payment Infrastructure</td>
-        <td>$50,000</td>
-        <td>8%</td>
-        <td>Additional payment gateway integration (Praxis/PayRetailers), CARDNET 3DS implementation</td>
-      </tr>
-      <tr>
-        <td>Technology & Product</td>
-        <td>$50,000</td>
-        <td>8%</td>
-        <td>DR-specific localizations, Flexsy development sprints, analytics enhancements</td>
-      </tr>
-      <tr>
-        <td>Operational Reserve</td>
-        <td>$50,000</td>
-        <td>8%</td>
-        <td>Buffer for unexpected costs, regulatory compliance, legal</td>
-      </tr>
-      <tr style="background:rgba(228,0,43,0.06);">
-        <td><strong>Total</strong></td>
-        <td><strong>$650,000</strong></td>
-        <td><strong>100%</strong></td>
-        <td><strong>12-18 month runway to profitability</strong></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="callout" style="margin-top:24px;">
-    <strong>Why $650K and not $1M+?</strong> The DR license is already fully funded separately. You already have the product built, in-kind marketing assets worth $75K+, and $438K deployed. The marginal dollar goes very far in this market &mdash; DR media costs are a fraction of US/Europe. A lean raise also preserves equity for a much larger Series A at a significantly higher valuation once you have 6-12 months of DR revenue data.
-  </div>
+<div class="evidence-item warning">
+  <div class="ev-label">OPPOSITE SIDE BETS — NOT ARBITRAGE</div>
+  The 6 "opposite side" bets between JuanP5234_ and Nataly920410 are <strong>not true arbitrage</strong>. Closer inspection shows most are on different dates for recurring matchups (e.g., Baltimore Orioles on Mar 30 vs Mar 31), different handicap lines (Brooklyn Nets +15.5 vs +16.5 — both lost), or different tournament rounds of the same player name. No hedging/arbitrage strategy is in play.
 </div>
 
-<hr class="divider">
+<!-- IDENTICAL STAKES -->
+<h2>4. Identical Stake Evidence</h2>
+<p class="section-intro">Instances where players bet the exact same dollar amount on the exact same event and market.</p>
 
-<!-- DEAL STRUCTURE -->
-<div class="section">
-  <div class="section-label">Deal Structure</div>
-  <h2>Recommended Instrument & Terms</h2>
+<table>
+  <thead>
+    <tr><th>Date</th><th>Event</th><th>Accounts</th><th>Stake</th><th>Time Gap</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="mono">Feb 10</td>
+      <td>Dep. Tachira combo (3-leg)</td>
+      <td><span class="badge badge-blue">Juan</span> <span class="badge badge-purple">Gio</span></td>
+      <td class="mono" style="color:var(--red);">$5.21</td>
+      <td class="mono">3m 19s</td>
+    </tr>
+    <tr>
+      <td class="mono">Feb 10</td>
+      <td>Dep. Tachira combo (3-leg)</td>
+      <td><span class="badge badge-blue">Juan</span> <span class="badge badge-orange">Nat</span></td>
+      <td class="mono" style="color:var(--red);">$5.21</td>
+      <td class="mono">4m 32s</td>
+    </tr>
+    <tr>
+      <td class="mono">Feb 10</td>
+      <td>West Ham vs Man United — Draw</td>
+      <td><span class="badge badge-blue">Juan</span> <span class="badge badge-orange">Nat</span> <span class="badge badge-purple">Gio</span></td>
+      <td class="mono" style="color:var(--red);">$1.68</td>
+      <td class="mono">all 3 within 53min</td>
+    </tr>
+    <tr>
+      <td class="mono">Feb 10</td>
+      <td>Univ. Catolica — 1H over 1.5</td>
+      <td><span class="badge badge-blue">Juan</span> <span class="badge badge-orange">Nat</span> <span class="badge badge-purple">Gio</span></td>
+      <td class="mono" style="color:var(--red);">$1.68</td>
+      <td class="mono">all 3 within 52min</td>
+    </tr>
+    <tr>
+      <td class="mono">Feb 7</td>
+      <td>Sacramento Kings ML</td>
+      <td><span class="badge badge-orange">Nat</span> <span class="badge badge-purple">Gio</span></td>
+      <td class="mono" style="color:var(--red);">$2.37</td>
+      <td class="mono">2m 19s</td>
+    </tr>
+    <tr>
+      <td class="mono">Feb 7</td>
+      <td>Celtics-Heat 1H — Miami</td>
+      <td><span class="badge badge-blue">Juan</span> <span class="badge badge-orange">Nat</span> <span class="badge badge-purple">Gio</span></td>
+      <td class="mono" style="color:var(--red);">$1.69</td>
+      <td class="mono">all 3 within 23min</td>
+    </tr>
+    <tr>
+      <td class="mono">Apr 4</td>
+      <td>12 NHL/NBA/MMA bets (batch)</td>
+      <td><span class="badge badge-blue">Juan</span> <span class="badge badge-orange">Nat</span></td>
+      <td class="mono" style="color:var(--red);">$8.68 each</td>
+      <td class="mono">~3.5 hrs apart</td>
+    </tr>
+  </tbody>
+</table>
 
-  <div class="two-col">
-    <div class="card">
-      <div class="card-header">Option A: SAFE Note</div>
-      <p style="font-size:14px; margin-bottom:12px;"><strong>Simple Agreement for Future Equity (SAFE)</strong> &mdash; invented by Y Combinator, now the standard instrument for early-stage raises. Here&#39;s how it works in plain terms:</p>
-      <p style="font-size:13px; margin-bottom:8px;">The investor gives you money now in exchange for the <em>right to receive equity later</em> &mdash; specifically when a "trigger event" happens (usually your next priced funding round, or an acquisition). The investor does NOT get shares immediately. Instead, their investment converts into shares at that future event, at a price determined by the <strong>valuation cap</strong> you agree to today.</p>
-      <p style="font-size:13px; margin-bottom:8px;"><strong>Example:</strong> Investor puts in $100K on a SAFE with a $4M cap. When you later raise a Series A at $15M valuation, their $100K converts at the $4M cap &mdash; meaning they get shares as if the company was worth $4M, not $15M. This rewards them for investing early.</p>
-      <p style="font-size:13px; margin-bottom:12px;"><strong>Key advantages:</strong> No interest payments, no maturity/repayment date, no board seats required, minimal legal costs (~$5K vs. $25K+ for a priced round), and it&#39;s a single document &mdash; fast to execute.</p>
-      <ul style="font-size:13px;">
-        <li>Valuation cap: $4M-$5M</li>
-        <li>No discount (or 10% max)</li>
-        <li>Pro-rata rights for investor (right to maintain % in future rounds)</li>
-        <li>Most founder-friendly option &mdash; no dilution until conversion</li>
-      </ul>
-      <div style="margin-top:12px;"><span class="tag tag-green">RECOMMENDED</span></div>
-    </div>
-    <div class="card">
-      <div class="card-header">Option B: Priced Equity Round</div>
-      <p style="font-size:14px; margin-bottom:12px;">Direct equity sale. More complex but gives investor immediate ownership stake and clear terms.</p>
-      <ul style="font-size:13px;">
-        <li>Pre-money: $4M</li>
-        <li>Board observer seat (no vote)</li>
-        <li>Quarterly reporting requirement</li>
-        <li>Preferred shares with 1x liquidation preference</li>
-      </ul>
-      <div style="margin-top:12px;"><span class="tag tag-blue">ALTERNATIVE</span></div>
-    </div>
-  </div>
-
-  <p>For a raise of this size ($500K-$750K) from likely angel investors or strategic partners in DR, a SAFE note is simpler and faster. If raising from an institutional VC or a single large investor, a priced round may be preferred.</p>
+<div class="evidence-item">
+  <div class="ev-label">SMOKING GUN — APRIL 4 BATCH</div>
+  On April 4, JuanP5234_ placed <strong>12 identical $8.68 bets</strong> between 09:51–10:09 UTC. Then Nataly920410 placed the <strong>exact same 12 bets at $8.68 each</strong> between 13:39–13:50 UTC — same events, same markets, same outcomes, same stake. This is a <strong>carbon copy session</strong> replayed 3.5 hours later on a different account.
 </div>
 
-<hr class="divider">
+<!-- COMBO BET MIRRORING -->
+<h2>5. Combo Bet Mirroring</h2>
+<p class="section-intro">The most compelling evidence: identical multi-leg parlays placed minutes apart.</p>
 
-<!-- INVESTOR NARRATIVE -->
-<div class="section">
-  <div class="section-label">Investor Narrative</div>
-  <h2>The Story You Tell</h2>
-  
-  <div class="highlight-box">
-    <h3>The Pitch in 60 Seconds</h3>
-    <p style="font-size:15px;">"The Dominican Republic just regulated online gambling. There are 928,000 potential online bettors and a $343M addressable market &mdash; with only 4 licensed operators. We&#39;re about to be number 5. Our sportsbook platform is already live and has processed $427K in turnover in the last 3 months. We have stadium access with Escogido starting this October, 20 billboards across Santo Domingo, local bank accounts for direct deposits and credit cards, and three founders with deep access to DR business and sports circles. The license fee is already funded. We&#39;re raising $650K purely for market launch &mdash; into a market where new competition can&#39;t even apply for a license until 2028."</p>
-  </div>
+<div class="evidence-item">
+  <div class="ev-label">FEB 10 — 3-LEG COMBO × 3 ACCOUNTS</div>
+  All three accounts placed a 3-leg combo on: <strong>Dep. Tachira + Fritz + Taylor</strong>.<br>
+  JuanP5234_ at 23:37:59 ($5.21, odds 2.346) → Giovanni1314 at 23:41:18 ($5.21, odds 2.346) → Nataly920410 at 23:42:31 ($5.21, odds 2.38).<br>
+  <strong>All three won.</strong> Time between first and last: <strong>4 minutes 32 seconds</strong>.
+</div>
 
-  <h3 style="margin-top:24px; margin-bottom:16px;">Key Talking Points</h3>
+<div class="evidence-item">
+  <div class="ev-label">FEB 11 — 2-LEG COMBO × 2 ACCOUNTS</div>
+  JuanP5234_ and Nataly920410 both placed: <strong>Man City + Bayern Munich</strong> combo.<br>
+  JuanP5234_ at 04:03:42 ($12.22, odds 1.7664) → Nataly920410 at 04:06:23 ($12.39, odds 1.7664).<br>
+  <strong>Both won.</strong> Time gap: <strong>2 minutes 41 seconds</strong>.
+</div>
+
+<div class="evidence-item">
+  <div class="ev-label">FEB 12 — 6-LEG COMBO × 3 ACCOUNTS</div>
+  Massive 6-leg parlay on: <strong>Real Madrid, EC Bahia, Botafogo, Inter Milano DC, Barcelona, Man City</strong>.<br>
+  JuanP5234_ at 02:39:28 ($48.04) → Nataly920410 at 02:53:03 ($48.74) → Giovanni1314 at 02:57:26 ($43.25).<br>
+  All at identical odds of 3.8169539. <strong>All three lost.</strong> Time span: <strong>18 minutes</strong>.
+</div>
+
+<div class="evidence-item">
+  <div class="ev-label">MAR 4 — 4-LEG COMBO × 3 ACCOUNTS</div>
+  All three: <strong>Man City + Marseille + Ugo Carabelli + Camilo</strong>.<br>
+  JuanP5234_ at 19:23:25 → Nataly920410 at 19:28:24 → Giovanni1314 at 19:29:57.<br>
+  <strong>All three lost.</strong> Time span: <strong>6 minutes 32 seconds</strong>.
+</div>
+
+<div class="evidence-item">
+  <div class="ev-label">MAR 8 — 4-LEG COMBO × 2 ACCOUNTS</div>
+  Nataly920410 and Giovanni1314 placed a 4-leg combo with <strong>identical events</strong> (AC Milan/Inter, Lyon/Paris, Fonseca/Paul) at the <strong>exact same odds of 5.73156</strong> and the <strong>exact same stake of $8.61</strong>.<br>
+  Nataly920410 at 17:59:43 → Giovanni1314 at 18:04:16. Gap: <strong>4 minutes 33 seconds</strong>.
+</div>
+
+<!-- TEMPORAL PATTERNS -->
+<h2>6. Temporal Patterns</h2>
+
+<div class="card">
+  <h3 style="margin-top:0;">Same-Session Betting (within 5 minutes)</h3>
+  <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:0.75rem;">11 instances of bets placed within 5 minutes of each other by different accounts. Notable clusters:</p>
+  <div class="stat-row"><span class="label">Feb 7 — all 3 active</span><span class="value">3 accounts, 2 bets each</span></div>
+  <div class="stat-row"><span class="label">Feb 10 — all 3 active</span><span class="value">3 accounts, 3 bets each</span></div>
+  <div class="stat-row"><span class="label">Feb 12 — all 3 active</span><span class="value">3 accounts, 2 bets each</span></div>
+  <div class="stat-row"><span class="label">Mar 4 — all 3 active</span><span class="value">3 accounts, 1 bet each</span></div>
+  <div class="stat-row"><span class="label">Mar 31 — Juan + Nataly</span><span class="value">30 + 29 bets respectively</span></div>
+  <div class="stat-row"><span class="label">Apr 4 — Juan + Nataly</span><span class="value">60 + 21 bets respectively</span></div>
+</div>
+
+<div class="evidence-item warning">
+  <div class="ev-label">BEHAVIORAL NOTE</div>
+  Giovanni1314 went inactive after Mar 20 (last bet). From Mar 31 onward, only JuanP5234_ and Nataly920410 are active — and their volume dramatically increased: 30 and 60 bets in single sessions. This is consistent with consolidation: the operator may have stopped using Giovanni1314 and split activity between the other two.
+</div>
+
+<!-- ACCOUNT SEQUENCING -->
+<h2>7. Account Registration Sequence</h2>
+
+<div class="card">
+  <div class="stat-row"><span class="label">JuanP5234_ (ext 004455)</span><span class="value">First bet Dec 22, 2025</span></div>
+  <div class="stat-row"><span class="label">Giovanni1314 (ext 009527)</span><span class="value">First bet Jan 25, 2026</span></div>
+  <div class="stat-row"><span class="label">Nataly920410 (ext 009590)</span><span class="value">First bet Jan 28, 2026</span></div>
+</div>
+<p style="font-size:0.88rem; margin-top:0.75rem;">
+  Giovanni1314 and Nataly920410 have sequential ext_player_ids (9527 and 9590) and were registered <strong>3 days apart</strong>. Combined with the shared surname and shared phone number you flagged, this strongly suggests batch account creation.
+</p>
+
+<!-- NO ARBITRAGE -->
+<h2>8. Arbitrage / Hedging Assessment</h2>
+
+<div class="card" style="background:var(--green-dim); border-color: var(--green);">
+  <h3 style="margin-top:0; color:var(--green);">No Arbitrage Strategy Detected</h3>
+  <p style="font-size:0.88rem;">These accounts are <strong>not</strong> being used to hedge or arbitrage opposite sides. The opposite-side rate is only 6–8% of shared bets, and inspection of each case shows they are not deliberate hedges — they involve different dates, different handicap lines, or different tournament matchups of the same player name. The operator is using multiple accounts to <strong>multiply exposure on the same picks</strong>, likely to circumvent per-account stake limits or bonus/promotion eligibility.</p>
+</div>
+
+<!-- RECOMMENDATIONS -->
+<h2>9. Recommended Actions</h2>
+
+<div class="card">
   <ul>
-    <li><strong>Scarcity:</strong> The DR license is a finite, time-limited asset. Only 4 other operators exist. The 2-year application process is the moat &mdash; not technology.</li>
-    <li><strong>Timing:</strong> The market is in its infancy. Regulation passed in 2024. This is the equivalent of entering US sports betting in 2019 &mdash; before the market exploded.</li>
-    <li><strong>Capital Efficiency:</strong> $438K already deployed. Product is built. This isn&#39;t a "build" raise, it&#39;s a "launch" raise. Every dollar goes to customer acquisition and market penetration.</li>
-    <li><strong>Network Effect:</strong> Escogido partnership + founder connections create marketing advantages that competitors (especially foreign operators) simply cannot replicate with money alone.</li>
-    <li><strong>Payment Infrastructure:</strong> Local bank accounts in DR for an iGaming company is exceptionally rare and valuable. Most offshore operators rely on e-wallets and crypto &mdash; Appuesta can accept bank transfers and credit cards directly.</li>
-    <li><strong>Exit Paths:</strong> Acquisition by larger LATAM operator (Betsson, Codere, Rush Street), or scale to Series A once DR revenue data proves the model.</li>
+    <li><strong>Link all three accounts</strong> in the fraud/multi-account system. Flag ext IDs 004455, 009527, 009590 as a single cluster.</li>
+    <li><strong>Freeze Nataly920410 and Giovanni1314</strong> — these appear to be the secondary/tertiary accounts. JuanP5234_ is the primary account (earliest registration, highest volume).</li>
+    <li><strong>Review bonus usage</strong> across all three accounts. If Welcome or Reload bonuses were claimed on the secondary accounts, the player has effectively triple-dipped on promotions.</li>
+    <li><strong>Audit deposit/withdrawal flows</strong> — check whether funds flow between these accounts or share the same payment instruments (credit card, bank account, crypto wallet).</li>
+    <li><strong>Apply single-account limit policy</strong> — consolidate any remaining balance to JuanP5234_ and enforce single-account going forward. Net combined P&L is -$1,432, so there is no material bonus abuse profit to claw back at this time.</li>
+    <li><strong>Document for Flexsy</strong> — if your provider has a multi-account reporting mechanism, submit these IDs for centralized flagging.</li>
   </ul>
 </div>
 
-<hr class="divider">
+<!-- SUMMARY TABLE -->
+<h2>10. Evidence Summary Matrix</h2>
 
-<!-- RISKS -->
-<div class="section">
-  <div class="section-label">Risk Factors</div>
-  <h2>What an Investor Will Push Back On (and Your Answers)</h2>
-  
-  <table>
-    <thead>
-      <tr><th style="width:35%;">Investor Concern</th><th>Your Response</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>"License isn&#39;t approved yet"</td>
-        <td>We&#39;ve submitted all corrections. Expected within 60 days. The $260K license fee is already fully funded from existing capital &mdash; it&#39;s not dependent on this raise.</td>
-      </tr>
-      <tr>
-        <td>"No DR revenue yet"</td>
-        <td>Correct &mdash; because we can&#39;t legally operate until the license is granted. But the product is live and generating turnover in Chile/Ecuador. This is a market-entry raise, not a product-development raise.</td>
-      </tr>
-      <tr>
-        <td>"Small team / founder risk"</td>
-        <td>Three co-equal founders with complementary skills and deep local networks. We&#39;ve already built the product and operated for 9+ months. The team is proven.</td>
-      </tr>
-      <tr>
-        <td>"Low current cash ($19K)"</td>
-        <td>Intentional &mdash; we&#39;ve deployed $438K into building the platform and securing the license. The DR license fee ($260K) is already set aside. The low operating cash is why we&#39;re raising now, before DR launch, not after.</td>
-      </tr>
-      <tr>
-        <td>"Escogido deal isn&#39;t signed"</td>
-        <td>Verbal agreement backed by strong personal relationships with the team&#39;s ownership. This will be formalized before winter league (October 2026). But even without it, the billboard deal and local banking infrastructure alone provide significant launch advantages.</td>
-      </tr>
-      <tr>
-        <td>"What if a major operator enters DR?"</td>
-        <td>They will, eventually &mdash; but they face a 2-year licensing process. By then we&#39;ll have 2+ years of market presence, brand recognition, and customer relationships. Plus, an acquisition by one of those operators is actually a favorable exit scenario.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<hr class="divider">
-
-<!-- MILESTONES -->
-<div class="section">
-  <div class="section-label">Post-Investment Milestones</div>
-  <h2>What Happens After You Invest</h2>
-  
-  <table>
-    <thead><tr><th>Timeline</th><th>Milestone</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><span class="tag tag-red">Month 1-2</span></td>
-        <td>DR license granted. Final payment processed. Legal operations begin.</td>
-      </tr>
-      <tr>
-        <td><span class="tag tag-red">Month 2-3</span></td>
-        <td>Payment infrastructure activated (CARDNET credit cards, bank transfers). Billboard campaign launches across Santo Domingo. Hire DR operations and support team.</td>
-      </tr>
-      <tr>
-        <td><span class="tag tag-blue">Month 3-6</span></td>
-        <td>Full digital marketing push + billboard presence. Soft launch with influencer + social media campaigns. Target: 1,000-2,000 registered users, 200-400 depositors.</td>
-      </tr>
-      <tr>
-        <td><span class="tag tag-blue">Month 6-7 (Oct 2026)</span></td>
-        <td>Escogido partnership activates &mdash; stadium banners, digital billboard for winter baseball league. Major visibility boost during peak sports season.</td>
-      </tr>
-      <tr>
-        <td><span class="tag tag-green">Month 7-10</span></td>
-        <td>Baseball season drives user growth. Optimize unit economics. Target: 3,000-5,000 registered users. Generate positive GGR momentum.</td>
-      </tr>
-      <tr>
-        <td><span class="tag tag-green">Month 10-12</span></td>
-        <td>Target: 5,000-10,000 users. Monthly NGR trajectory toward $50K-$100K+. Begin casino license application. Evaluate Series A readiness.</td>
-      </tr>
-      <tr>
-        <td><span class="tag tag-yellow">Month 12-18</span></td>
-        <td>Series A raise at $10M-$20M valuation based on demonstrated DR revenue, or explore strategic partnership/acquisition conversations.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<hr class="divider">
-
-<!-- FOUNDER QUESTIONS -->
-<div class="section">
-  <div class="section-label">Action Items</div>
-  <h2>Questions to Answer Before Investor Meetings</h2>
-  <p style="margin-bottom:20px;">The following data points, once gathered, will significantly strengthen the valuation case and fill gaps that a sophisticated investor will ask about. Discuss these at your next co-founder meeting:</p>
-
-  <div class="card" style="margin-bottom:16px;">
-    <div class="card-header">Financial & Unit Economics</div>
-    <ul>
-      <li><strong>What is our actual GGR and NGR by month</strong> since platform launch (July 2025)? Break out sportsbook vs. casino if possible. This lets us calculate true hold % and margin.</li>
-      <li><strong>What are our actual bonus costs by month?</strong> We know GGR but not net bonus costs &mdash; this is the single biggest gap in our financial story.</li>
-      <li><strong>What is our blended CAC to date?</strong> Total marketing spend &divide; total depositors (500+). Even a rough number helps.</li>
-      <li><strong>What is average deposit size and frequency</strong> for our top 20% of players? This gives us LTV projections an investor can trust.</li>
-      <li><strong>What does our monthly P&L actually look like?</strong> Even rough &mdash; revenue, provider costs (Betby/Flexsy), payment fees, marketing, salaries, G&A. Are we contribution-margin positive on existing players?</li>
-    </ul>
-  </div>
-
-  <div class="card" style="margin-bottom:16px;">
-    <div class="card-header">DR Market Specifics</div>
-    <ul>
-      <li><strong>Who are the 4 current DR licensees?</strong> Names, what they offer, how established they are. Knowing the competitive landscape lets us position against them directly.</li>
-      <li><strong>What is the Escogido deal worth in dollar terms?</strong> Get a quote for what comparable stadium signage/sponsorship costs. Even an informal ask to the team&#39;s commercial department gives us a defensible number.</li>
-      <li><strong>What is the billboard provider&#39;s rate card?</strong> Get the actual per-billboard monthly rate so we can quantify the in-kind value precisely (currently estimated at $51K-$102K).</li>
-      <li><strong>What sports are most popular to bet on in DR?</strong> Baseball (winter league + MLB) is obvious, but what about basketball, boxing, football? This informs our Betby content strategy for DR launch.</li>
-      <li><strong>What&#39;s the competitive landscape for payment acceptance?</strong> Can the other 4 operators accept local bank transfers and credit cards, or are they offshore-only? If we&#39;re the only ones with CARDNET, that&#39;s a massive talking point.</li>
-    </ul>
-  </div>
-
-  <div class="card" style="margin-bottom:16px;">
-    <div class="card-header">Strategic & Legal</div>
-    <ul>
-      <li><strong>Exact license timeline and remaining steps.</strong> Any risk of delay beyond 60 days? What&#39;s the absolute worst case?</li>
-      <li><strong>What entity will hold the DR license?</strong> DRBETS SRL? This matters for how the investment is structured (which entity the SAFE attaches to).</li>
-      <li><strong>What&#39;s the plan for the online casino license?</strong> Timeline, estimated cost, and when to apply. Investors will want to know this is on the roadmap even if not in this raise.</li>
-      <li><strong>Do any of the three founders have non-compete or conflict-of-interest issues?</strong> An investor will ask &mdash; better to surface and address now.</li>
-      <li><strong>Cap table clarity.</strong> What is the exact ownership split among the three founders today? Any prior investors, advisors, or option holders?</li>
-    </ul>
-  </div>
-
-  <div class="card" style="margin-bottom:16px;">
-    <div class="card-header">Valuation Boosters &mdash; Data That Could Push Valuation Higher</div>
-    <ul>
-      <li><strong>If you can show positive unit economics</strong> (LTV > CAC, even on small sample), the valuation conversation shifts from $4M toward $5-6M.</li>
-      <li><strong>If you can get a signed LOI from Escogido</strong> (even a simple one-page letter of intent), it converts a handshake into a tangible asset.</li>
-      <li><strong>If you can confirm the other 4 operators DON&#39;T have local bank accounts / credit card acceptance</strong>, that&#39;s a defensible competitive moat worth highlighting.</li>
-      <li><strong>If you can get the billboard deal committed in writing</strong> (even an email confirmation), it becomes a valued in-kind contribution to the pitch.</li>
-      <li><strong>If you have any user testimonials or engagement data from Chile/Ecuador</strong> &mdash; even anecdotal ("our top player bets X times per week") &mdash; it humanizes the numbers.</li>
-      <li><strong>If you can quantify the DR market more precisely</strong> &mdash; the $370 ARPU and 16% penetration from the pamphlet are good, but sourcing from an industry report (H2 Gambling Capital, Statista, etc.) makes it audit-proof for investors.</li>
-    </ul>
-  </div>
-</div>
+<table>
+  <thead>
+    <tr><th>Indicator</th><th>Finding</th><th>Severity</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Shared IP Address</td><td>2 IPs shared between Juan & Giovanni</td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+    <tr><td>Shared Surname</td><td>Confirmed by operator</td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+    <tr><td>Shared Phone</td><td>2 of 3 accounts share same phone</td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+    <tr><td>Same-Side Betting</td><td>91–92% agreement across 75+ shared events</td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+    <tr><td>Identical Stake Amounts</td><td>16+ instances of exact dollar match on same event</td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+    <tr><td>Carbon Copy Sessions</td><td>Apr 4: 12 identical bets replayed 3.5hrs later</td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+    <tr><td>Mirrored Combos</td><td>5 identical multi-leg parlays across accounts</td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+    <tr><td>Temporal Proximity</td><td>11 bet pairs within 5 minutes of each other</td><td><span class="badge badge-orange">HIGH</span></td></tr>
+    <tr><td>Sequential Registration</td><td>Ext IDs 9527 & 9590 created 3 days apart</td><td><span class="badge badge-orange">HIGH</span></td></tr>
+    <tr><td>Account Consolidation</td><td>Giovanni stops; Juan+Nataly volume surges</td><td><span class="badge badge-orange">HIGH</span></td></tr>
+    <tr><td>Arbitrage / Hedging</td><td>NOT detected — same-side multiplication</td><td><span class="badge badge-green">NONE</span></td></tr>
+  </tbody>
+</table>
 
 <div class="footer">
-  <div style="margin-bottom:8px;">APPUESTA &mdash; DRBETS SRL / JJM Sports Limitada</div>
-  <div>Confidential &mdash; Prepared for Internal Use & Investor Discussions</div>
-  <div style="margin-top:8px;">March 2026</div>
+  Appuesta Risk Management — Confidential<br>
+  Report generated from Flexsy bet history exports. Analysis period: Dec 22, 2025 – Apr 7, 2026.
 </div>
 
-</div>
-
-<script>
-const scenarios = {
-  conservative: {
-    label: &#39;Conservative&#39;,
-    desc: &#39;Slow ramp, minimal marketing beyond free billboard/stadium assets. 2% market penetration in Year 1.&#39;,
-    y1Users: 2000,
-    y1Depositors: 400,
-    y1ARPU: 250,
-    y1NGR: &#39;$100K&#39;,
-    y1GGR: &#39;$250K&#39;,
-    y2Users: 5000,
-    y2Depositors: 1200,
-    y2NGR: &#39;$400K&#39;,
-    y2GGR: &#39;$900K&#39;,
-    multiple: &#39;3x-4x forward NGR&#39;,
-    impliedVal: &#39;$1.2M &ndash; $1.6M&#39;,
-    note: &#39;Below our floor &mdash; this scenario undervalues the license and infrastructure assets.&#39;
-  },
-  base: {
-    label: &#39;Base Case&#39;,
-    desc: &#39;Moderate marketing spend ($10-15K/mo), Escogido + billboard activation, digital campaigns. 3-4% market penetration in Year 1.&#39;,
-    y1Users: 5000,
-    y1Depositors: 1000,
-    y1ARPU: 320,
-    y1NGR: &#39;$320K&#39;,
-    y1GGR: &#39;$750K&#39;,
-    y2Users: 15000,
-    y2Depositors: 3500,
-    y2NGR: &#39;$1.2M&#39;,
-    y2GGR: &#39;$2.5M&#39;,
-    multiple: &#39;4x-6x forward NGR&#39;,
-    impliedVal: &#39;$4.8M &ndash; $7.2M&#39;,
-    note: &#39;Supports our $4M-$5M pre-money valuation with room for upside.&#39;
-  },
-  aggressive: {
-    label: &#39;Aggressive&#39;,
-    desc: &#39;Full marketing blitz, Escogido jersey sponsorship, TV/radio, aggressive bonus offers. 5-7% market penetration.&#39;,
-    y1Users: 10000,
-    y1Depositors: 2500,
-    y1ARPU: 370,
-    y1NGR: &#39;$925K&#39;,
-    y1GGR: &#39;$2M&#39;,
-    y2Users: 30000,
-    y2Depositors: 8000,
-    y2NGR: &#39;$3.2M&#39;,
-    y2GGR: &#39;$6.5M&#39;,
-    multiple: &#39;4x-6x forward NGR&#39;,
-    impliedVal: &#39;$12.8M &ndash; $19.2M&#39;,
-    note: &#39;Series A territory &mdash; achievable if launch exceeds expectations.&#39;
-  }
-};
-
-function switchScenario(key) {
-  document.querySelectorAll(&#39;.scenario-tab&#39;).forEach(t => t.classList.remove(&#39;active&#39;));
-  event.target.classList.add(&#39;active&#39;);
-  
-  const s = scenarios[key];
-  const html = `
-    <div class="card" style="margin-bottom:16px;">
-      <p style="font-size:14px; color:var(--text-muted); margin-bottom:16px;">${s.desc}</p>
-      <table>
-        <thead><tr><th>Metric</th><th>Year 1</th><th>Year 2</th></tr></thead>
-        <tbody>
-          <tr><td>Registered Users</td><td>${s.y1Users.toLocaleString()}</td><td>${s.y2Users.toLocaleString()}</td></tr>
-          <tr><td>Depositing Users</td><td>${s.y1Depositors.toLocaleString()}</td><td>${s.y2Depositors.toLocaleString()}</td></tr>
-          <tr><td>ARPU</td><td>$${s.y1ARPU}</td><td>&mdash;</td></tr>
-          <tr><td>Est. GGR</td><td class="val-highlight">${s.y1GGR}</td><td class="val-highlight">${s.y2GGR}</td></tr>
-          <tr><td>Est. NGR (after costs)</td><td class="val-highlight">${s.y1NGR}</td><td class="val-highlight">${s.y2NGR}</td></tr>
-          <tr><td>Valuation Multiple</td><td colspan="2">${s.multiple} (on Year 2 forward NGR)</td></tr>
-          <tr style="background:rgba(228,0,43,0.06);"><td><strong>Implied Valuation</strong></td><td colspan="2" class="val-highlight" style="font-size:16px;"><strong>${s.impliedVal}</strong></td></tr>
-        </tbody>
-      </table>
-      <p class="note">${s.note}</p>
-    </div>
-  `;
-  document.getElementById(&#39;scenarioContent&#39;).innerHTML = html;
-  
-  // Move marker
-  const positions = { conservative: &#39;15%&#39;, base: &#39;40%&#39;, aggressive: &#39;75%&#39; };
-  document.getElementById(&#39;valMarker&#39;).style.left = positions[key];
-}
-
-// Initialize
-switchScenario(&#39;base&#39;);
-</script>
 </body>
 </html>
